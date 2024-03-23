@@ -1,0 +1,68 @@
+<div class="container">
+
+    <h1>Relative Values</h1>
+  <div class="row">
+
+    <div class="col-md-4">
+      <div class="card rounded-circle">
+        <div class="icon">
+          <i class="uil uil-wind"></i>
+        </div>
+        <div class="card-content">
+          <h2>Air Quality</h2>
+          <div class="value">25°C</div>
+          <div class="label">Ambient Temperature</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card rounded-circle">
+        <div class="icon">
+          <i class="uil uil-thermometer"></i>
+        </div>
+        <div class="card-content">
+          <h2>Temperature</h2>
+          <div class="value">25°C</div>
+          <div class="label">Ambient Temperature</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card rounded-circle">
+        <div class="icon">
+                <i class="uil uil-raindrops-alt"></i>
+        </div>
+        <div class="card-content">
+          <h2>Humidity</h2>
+          <div class="value">25°C</div>
+          <div class="label">Ambient Temperature</div>
+        </div>
+      </div>
+    </div>
+  </div> <!-- End of first row -->
+
+  <h1>Absolute Values</h1>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card  rounded-circle">
+        <canvas id="barChart"></canvas>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <canvas id="labelChart"></canvas>
+      </div>
+    </div>
+  </div> <!-- End of second row -->
+
+  <div class="blur"></div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card">
+        <canvas id="scatterChart"></canvas>
+      </div>
+    </div>
+    <!-- Add another col-md-6 here if you want to display another chart -->
+  </div> <!-- End of third row -->
+
+</div> <!-- End of container -->

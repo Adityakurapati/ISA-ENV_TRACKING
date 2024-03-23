@@ -1,0 +1,74 @@
+* {
+        margin: 0;
+        padding: 0;
+}
+
+body {
+        font-family: Arial, sans-serif;
+        height: 100vh;
+        width: 100vw;
+        background-color: #191B1F;
+        display: grid;
+        padding: 2rem;
+}
+
+h1 {
+        color: white;
+}
+
+.container {
+        display: flex;
+        flex-direction: column;
+        gap: 60px;
+}
+
+.card {
+        padding: 20px;
+        margin: 20px;
+        width: 300px !important;
+        height: 300px !important;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+
+        background: white;
+        box-shadow: 0 8px 32px 0 rgba(229, 230, 234, 0.373);
+        backdrop-filter: blur(50px);
+        -webkit-backdrop-filter: blur(4px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+
+        /* Adjust opacity to achieve desired glassmorphism effect */
+        opacity: 0.9;
+
+        position: relative;
+        transform: scale(0.9);
+        transition: transform 0.5s ease;
+}
+
+.uil {
+        font-size: 3.4rem;
+}
+
+.charts-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        justify-content: center;
+        gap: 50px;
+        color: white;
+}
+
+.card h2 {
+        margin-top: 0;
+        color: #333;
+}
+
+.value {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+}
+
+.label {
+        color: #ffffff;
+}
