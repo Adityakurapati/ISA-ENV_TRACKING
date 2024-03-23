@@ -13,5 +13,5 @@ class Airquality extends Model
     protected $table = 'airquality';
 
     // Define mass-assignable attributes
-    protected $fillable = ['gas_value', 'h2ppm', 'lpg', 'ch4', 'co', 'alcohol'];
+    protected $fillable = ['co2', 'lpg', 'benzin', 'no2'];
 }

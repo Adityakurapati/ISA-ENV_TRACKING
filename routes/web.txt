@@ -1,22 +1,25 @@
 <?php
+
 use App\Http\Controllers\AirQualityController;
 use App\Http\Controllers\HumidityController;
 use App\Http\Controllers\TemperatureController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
+
 // Just For Rendering UI
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/temperature', [TemperatureController::class, 'index'])->name('temperature.index');
 Route::get('/humidity', [HumidityController::class, 'index'])->name('humidity.index');
 Route::get('/air-quality', [AirQualityController::class, 'index'])->name('air_quality.index');
+Route::get('/api-health', [ApiController::class, 'index'])->name('weather-api.index');
 
 // Route to fetch Sensor data
 Route::get('/fetch-air-quality', [AirQualityController::class, 'fetchAirQuality']);
-Route::get('/fetch-humidity', [HumidityController::class, 'fetchHumidity']);
-Route::get('/fetch-temperature', [TemperatureController::class, 'fetchTemperature']);
+Route::get('/fetch-humidity', [AirQualityController::class, 'fetchHumidity']);
+Route::get('/fetch-temperature', [AirQualityController::class, 'fetchTemperature']);
 
 // Route to store Sensor Data 
-Route::get('/store-air-quality', [AirQualityController::class, 'storeAirQuality']);
-Route::get('/store-temperature', [TemperatureController::class, 'storeTemperature'])->name('temperature.store');        
-Route::get('/store-humidity', [HumidityController::class, 'storeHumidity'])->name('humidity.store');
+Route::post('/store-air-quality', [AirQualityController::class, 'storeAirQuality']);
+Route::post('/store-temperature', [TemperatureController::class, 'storeTemperature'])->name('temperature.store');        
+Route::post('/store-humidity', [HumidityController::class, 'storeHumidity'])->name('humidity.store');

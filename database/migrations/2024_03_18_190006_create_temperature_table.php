@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('temperature', function (Blueprint $table) {
             $table->id();
-            $table->decimal('temp_value', 8, 2); // Adjust the precision according to your sensor data
+            $table->decimal('temp_value', 8, 2); 
             $table->timestamps();
         });
     }

@@ -1,239 +1,418 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="{{ asset('css/app.css') }}">
-<!-- Include Bootstrap CSS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-<title>Environment Health Monitor</title>
-<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Include Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+        <title>Environment Health Monitor</title>
+        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
 </head>
+
 <body>
 
-<div class="container">
+        <!-- Include Chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <!-- Include Chart.js plugin for datalabels -->
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
-    <h1>Relative Values</h1>
-  <div class="row">
+        <style>
+                * {
+                        color: rgb(160, 159, 159);
+                        margin: 0;
+                        padding: 0;
+                }
 
-    <div class="col-md-4">
-      <div class="card rounded-circle">
-        <div class="icon">
-          <i class="uil uil-wind"></i>
+                body {
+                        font-family: Arial, sans-serif;
+                        max-height: 100vh;
+                        width: 100vw;
+                        background-color: #191B1F;
+                }
+
+                h1 {
+                        color: white;
+                }
+
+                .blur {
+                        filter: blur(40px);
+                        background: rgb(146 43 240);
+                        width: 540px;
+                        height: 485px;
+                        position: absolute;
+                        top: -95px;
+                        left: -84px;
+                        border-radius: 50%;
+                        z-index: -1;
+                        background: url('/css/blur.png');
+                }
+
+                .container {
+                        max-height: 100vh;
+                        display: grid;
+                        min-width: 100vw;
+                        height: 100vh;
+                        gap: 35px;
+                        grid-template-columns: 4% 30% auto;
+                }
+
+                .card {
+                        transform: scale(0.9);
+                        transition: transform 0.5s ease;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        /* box-sizing: content-box; */
+                        background: rgba(255, 255, 255, 0.25);
+                        border-radius: 20px;
+                        border: 1px solid rgba(255, 255, 255, 0.18);
+                        padding: 3rem;
+                }
+
+                h1,
+                h2,
+                h3,
+                h4 {
+                        color: white;
+                        font-weight: bold;
+                }
+
+                .menu {
+                        grid-column: 1;
+                        grid-row: 1/3;
+                        display: flex !important;
+                        width: auto !important;
+                        flex-direction: column;
+                        color: gainsboro;
+                        justify-content: flex-start;
+                        align-items: center !important;
+                }
+
+                .menu>.option {
+                        color: blue;
+                        font-size: 2rem;
+                        background: rgb(32, 32, 46);
+                        padding: .9rem;
+                        border-radius: 1.2rem;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 60px;
+                        height: 60px;
+                        transition: all 0.4s ease-in;
+                }
+
+                .menu>.option:hover {
+                        background-color: rgb(15, 15, 24);
+                        cursor: pointer;
+                        color: white;
+                }
+
+                /* Smooth scrollbar for webkit browsers */
+                ::-webkit-scrollbar {
+                        width: 8px;
+                        height: 60%;
+                }
+
+                /* Track */
+                ::-webkit-scrollbar-track {
+                        background: transparent;
+                }
+
+                /* Handle */
+                ::-webkit-scrollbar-thumb {
+                        background: #888;
+                        border-radius: 4px;
+                }
+
+                /* Handle on hover */
+                ::-webkit-scrollbar-thumb:hover {
+                        background: #555;
+                }
+
+
+                .flex-row {
+                        display: flex;
+                        flex-direction: row;
+                        width: 100% !important;
+                        gap: 50px;
+                }
+
+                .flex-column {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 5px;
+                        /* box-sizing: content-box; */
+                        width: 100%;
+
+                        padding: 2.5rem;
+                }
+
+                .start {
+                        justify-content: flex-start;
+                }
+
+                .end {
+                        justify-content: flex-end;
+                }
+
+                .temperature {
+                        grid-column: 2;
+                        align-items: flex-start;
+                }
+
+                .row {
+                        font-size: 1.2rem;
+                }
+
+                .temperature>.icon {
+                        font-size: 4rem;
+                        width: 200px;
+                        height: 200px;
+                        background: url('E:/env-tracking/images/tem-icon.png');
+                }
+
+                hr {
+                        border: none;
+                        border-top: 1px solid #eee;
+                        width: 100%;
+                        margin: 10px 0;
+                }
+
+                .temperature h2 {
+                        font-size: 2.2rem;
+                        font-weight: 700;
+                        color: wheat;
+                }
+
+
+                .flex-row>.icon {
+                        width: 60px;
+                        height: 60px;
+                }
+
+                .temp-details {
+                        align-items: center;
+                }
+
+                .air-quality {
+                        grid-column: 3;
+                        display: grid;
+                        grid-template-columns: repeat(3, 1fr);
+                        gap: 20px;
+                        width: 100%;
+                }
+
+                .overall-strategy {
+                        grid-column: 3;
+                        display: grid;
+                        /* height: 100%; */
+                        grid-template-columns: repeat(3, minmax(0, 1fr));
+                        width: 100%;
+                        gap: 25px;
+                }
+
+                .box {
+                        background: #2f2f30;
+                        /* background: #2b2d2e; */
+                        border-radius: 20px;
+                        padding: 20px;
+                        text-align: center;
+                        margin-bottom: 20px;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        max-width: 300px;
+                        /* Adjusted */
+                        width: 100%;
+                        height: 100%;
+                }
+
+                .box h3 {
+                        font-size: 1.5rem;
+                        margin-bottom: 10px;
+                }
+
+                .quality {
+                        background-color: rgb(207, 206, 206);
+                        padding: 1.2rem;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 20px;
+                        border-radius: 20px;
+                        margin-bottom: 20px;
+
+                }
+
+                .quality .heading {
+                        font-size: 1.2rem;
+                        margin-bottom: 10px;
+                }
+
+                .quality .value {
+                        font-size: 1.5rem;
+                        color: #FFD700;
+                        /* Golden color */
+                }
+
+                .temperature-detailed {
+                        max-height: 300px;
+                        overflow-y: auto;
+                        position: relative;
+                }
+
+                .temperature-detailed h3 {
+                        position: absolute;
+                        top: .8rem;
+                }
+
+                .temperature-detailed .temp-details {
+                        display: flex;
+                        align-items: center;
+                        margin-bottom: 10px;
+                }
+
+                .temperature-detailed .temp-details .icon {
+                        width: 60px;
+                        height: 60px;
+                        margin-right: 10px;
+                }
+
+                .temperature-detailed .temp-details .temp_value,
+                .temperature-detailed .temp-details .date,
+                .temperature-detailed .temp-details .time {
+                        font-size: 1.2rem;
+                        margin-right: 10px;
+                }
+        </style>
+
+        <div class="container">
+                <div class="menu card flex-column">
+                        <div class="sensor option"><i class="uil uil-wind"></i></div>
+                        <div class="api option"><i class="uil uil-cloud-sun"></i></div>
+                </div>
+                <div class="temperature card flex-column">
+                        <h2>Temperature</h2>
+                        <img src="/images/tem-icon.png" alt="" class="icon">
+                        <h2>28 <sup>*C</sup> </h2>
+                        <div class="row flex-row">
+                                <div class="row-icon">
+                                        <i class="uil uil-cloud"></i>
+                                </div>
+                                <div class="row-text">Rainy Cloud </div>
+                        </div>
+                        <hr>
+                        <div class="row flex-row">
+                                <div class="row-icon">
+                                        <i class="uil uil-cloud"></i>
+                                </div>
+                                <div class="row-text">Rainy Cloud </div>
+                        </div>
+                        <div class="row flex-row">
+                                <div class="row-icon">
+                                        <i class="uil uil-cloud"></i>
+                                </div>
+                                <div class="row-text">Rainy Cloud </div>
+                        </div>
+                </div>
+                <div class="flex-column card" style="align-items: flex-start;">
+                        <h2>Overall-Strategy</h2>
+                        <div class="overall-strategy ">
+
+                                <div class="box box-1">
+                                        <h3>Air Quality</h3>
+                                        <canvas id="labelChart"></canvas>
+                                        <div class="values">7.90</div>
+                                </div>
+                                <div class="box box-2">
+                                        <h3>Humidity</h3>
+                                        <canvas id="scatterChart"></canvas>
+                                        <div class="values">03</div>
+                                </div>
+                                <div class="box box-3">
+                                        <h3>Temperature</h3>
+                                        <canvas id="lineChart"></canvas>
+                                        <div class="values">42 deg</div>
+                                </div>
+                        </div>
+                </div>
+
+                <div class="temperature-detailed card">
+                        <div class="head-text flex-row start">
+                                <h3>Past-Forecast</h3>
+                        </div>
+                        <div class="flex-row temp-details">
+                                <img src="/images/tem-icon.png" alt="" class="icon">
+                                <div class="temp_value">35</div>
+                                <div class="date">today</div>
+                                <div class="time">24.00</div>
+                        </div>
+                        <div class="flex-row temp-details">
+                                <img src="/images/tem-icon.png" alt="" class="icon">
+                                <div class="temp_value">35</div>
+                                <div class="date">today</div>
+                                <div class="time">24.00</div>
+                        </div>
+                        <div class="flex-row temp-details">
+                                <img src="/images/tem-icon.png" alt="" class="icon">
+                                <div class="temp_value">35</div>
+                                <div class="date">today</div>
+                                <div class="time">24.00</div>
+                        </div>
+                        <div class="flex-row temp-details">
+                                <img src="/images/tem-icon.png" alt="" class="icon">
+                                <div class="temp_value">35</div>
+                                <div class="date">today</div>
+                                <div class="time">24.00</div>
+                        </div>
+                        <div class="flex-row temp-details">
+                                <img src="/images/tem-icon.png" alt="" class="icon">
+                                <div class="temp_value">35</div>
+                                <div class="date">today</div>
+                                <div class="time">24.00</div>
+                        </div>
+                        <div class="flex-row temp-details">
+                                <img src="/images/tem-icon.png" alt="" class="icon">
+                                <div class="temp_value">35</div>
+                                <div class="date">today</div>
+                                <div class="time">24.00</div>
+                        </div>
+                </div>
+                <div class="flex-column card" style="align-items: flex-start;">
+                        <h2>Air Quality</h2>
+                        <div class="air-quality">
+                                <div class="quality">
+                                        <div class="heading">Co</div>
+                                        <div class="value">23</div>
+                                </div>
+                                <div class="quality">
+                                        <div class="heading">Co</div>
+                                        <div class="value">23</div>
+                                </div>
+                                <div class="quality">
+                                        <div class="heading">Co</div>
+                                        <div class="value">23</div>
+                                </div>
+                                <div class="quality">
+                                        <div class="heading">Co</div>
+                                        <div class="value">23</div>
+                                </div>
+                                <div class="quality">
+                                        <div class="heading">Co</div>
+                                        <div class="value">23</div>
+                                </div>
+                                <div class="quality">
+                                        <div class="heading">Co</div>
+                                        <div class="value">23</div>
+                                </div>
+                        </div>
+                </div>
         </div>
-        <div class="card-content">
-          <h2>Air Quality</h2>
-          <div class="value">25°C</div>
-          <div class="label">Ambient Temperature</div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card rounded-circle">
-        <div class="icon">
-          <i class="uil uil-thermometer"></i>
-        </div>
-        <div class="card-content">
-          <h2>Temperature</h2>
-          <div class="value">25°C</div>
-          <div class="label">Ambient Temperature</div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card rounded-circle">
-        <div class="icon">
-                <i class="uil uil-raindrops-alt"></i>
-        </div>
-        <div class="card-content">
-          <h2>Humidity</h2>
-          <div class="value">25°C</div>
-          <div class="label">Ambient Temperature</div>
-        </div>
-      </div>
-    </div>
-  </div> <!-- End of first row -->
-
-  <h1>Absolute Values</h1>
-  <div class="row">
-    <div class="col-md-4">
-      <div class="card  rounded-circle">
-        <canvas id="barChart"></canvas>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card">
-        <canvas id="labelChart"></canvas>
-      </div>
-    </div>
-  </div> <!-- End of second row -->
-
-  <div class="blur"></div>
-  <div class="row">
-    <div class="col-md-4">
-      <div class="card">
-        <canvas id="scatterChart"></canvas>
-      </div>
-    </div>
-    <!-- Add another col-md-6 here if you want to display another chart -->
-  </div> <!-- End of third row -->
-
-</div> <!-- End of container -->
-
-<!-- Include Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<!-- Include Chart.js plugin for datalabels -->
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-
-
-// Scatter CHart
-var ctxSc = document.getElementById('scatterChart').getContext('2d');
-  var scatterData = {
-    datasets: [{
-      borderColor: 'rgba(99,0,125, .2)',
-      backgroundColor: 'rgba(99,0,125, .5)',
-      label: 'V(node2)',
-      data: [{
-        x: 1,
-        y: -1.711e-2,
-      }, {
-        x: 1.26,
-        y: -2.708e-2,
-      }, {
-        x: 1.58,
-        y: -4.285e-2,
-      }, {
-        x: 2.0,
-        y: -6.772e-2,
-      }, {
-        x: 2.51,
-        y: -1.068e-1,
-      }, {
-        x: 3.16,
-        y: -1.681e-1,
-      }, {
-        x: 3.98,
-        y: -2.635e-1,
-      }, {
-        x: 5.01,
-        y: -4.106e-1,
-      }, {
-        x: 6.31,
-        y: -6.339e-1,
-      }, {
-        x: 7.94,
-        y: -9.659e-1,
-      }, {
-        x: 10.00,
-        y: -1.445,
-      }, {
-        x: 12.6,
-        y: -2.110,
-      }, {
-        x: 15.8,
-        y: -2.992,
-      }, {
-        x: 20.0,
-        y: -4.102,
-      }, {
-        x: 25.1,
-        y: -5.429,
-      }, {
-        x: 31.6,
-        y: -6.944,
-      }, {
-        x: 39.8,
-        y: -8.607,
-      }, {
-        x: 50.1,
-        y: -1.038e1,
-      }, {
-        x: 63.1,
-        y: -1.223e1,
-      }, {
-        x: 79.4,
-        y: -1.413e1,
-      }, {
-        x: 100.00,
-        y: -1.607e1,
-      }, {
-        x: 126,
-        y: -1.803e1,
-      }, {
-        x: 158,
-        y: -2e1,
-      }, {
-        x: 200,
-        y: -2.199e1,
-      }, {
-        x: 251,
-        y: -2.398e1,
-      }, {
-        x: 316,
-        y: -2.597e1,
-      }, {
-        x: 398,
-        y: -2.797e1,
-      }, {
-        x: 501,
-        y: -2.996e1,
-      }, {
-        x: 631,
-        y: -3.196e1,
-      }, {
-        x: 794,
-        y: -3.396e1,
-      }, {
-        x: 1000,
-        y: -3.596e1,
-      }]
-    }]
-  }
-
-  var config1 = new Chart(ctxSc, {
-    type: 'scatter',
-    data: scatterData,
-    options: {
-      title: {
-        display: true,
-        text: 'Scatter Chart - Logarithmic X-Axis'
-      },
-      scales: {
-        xAxes: [{
-          type: 'logarithmic',
-          position: 'bottom',
-          ticks: {
-            userCallback: function (tick) {
-              var remain = tick / (Math.pow(10, Math.floor(Chart.helpers.log10(tick))));
-              if (remain === 1 || remain === 2 || remain === 5) {
-                return tick.toString() + 'Hz';
-              }
-              return '';
-            },
-          },
-          scaleLabel: {
-            labelString: 'Frequency',
-            display: true,
-          }
-        }],
-        yAxes: [{
-          type: 'linear',
-          ticks: {
-            userCallback: function (tick) {
-              return tick.toString() + 'dB';
-            }
-          },
-          scaleLabel: {
-            labelString: 'Voltage',
-            display: true
-          }
-        }]
-      }
-    }
-  });
-</script>
-
+        <script src="/js/script.js"></script>
 </body>
+
 </html>
