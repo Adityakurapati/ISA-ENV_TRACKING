@@ -10,9 +10,13 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/temperature', [TemperatureController::class, 'index'])->name('temperature.index');
 Route::get('/humidity', [HumidityController::class, 'index'])->name('humidity.index');
 Route::get('/air-quality', [AirQualityController::class, 'index'])->name('air_quality.index');
+Route::get('/api-health', [ApiController::class, 'index'])->name('weather-api.index');
 
 // Route to fetch air quality data
 Route::get('/fetch-air-quality', [AirQualityController::class, 'fetchAirQuality']);
+
+
+
 
 // Route to store air quality data
 Route::get('/store-air-quality/{gas}/{h2}/{lpg}/{ch4}/{co}/{alcohol}', [AirQualityController::class, 'storeAirQuality'])->name('airquality.store');
