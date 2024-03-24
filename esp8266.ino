@@ -11,9 +11,9 @@ DHT dht(DHTPIN, DHTTYPE);
 
 const char* ssid = "GX_SECURITY";
 const char* password = "123456789";
-const char* serverUrlAirQuality = "http://your-laravel-website-url.com/store-air-quality"; // Change this to your Laravel website URL for air quality
-const char* serverUrlTemperature = "http://your-laravel-website-url.com/store-temperature"; // Change this to your Laravel website URL for temperature
-const char* serverUrlHumidity = "http://your-laravel-website-url.com/store-humidity"; // Change this to your Laravel website URL for humidity
+const char* serverUrlAirQuality = "http://127.0.0.1:8000/store-air-quality"; 
+const char* serverUrlTemperature = "http://127.0.0.1:8000/store-temperature"; 
+const char* serverUrlHumidity = "http://127.0.0.1:8000/store-humidity"; 
 
 void setup() {
   Serial.begin(9600);
@@ -38,67 +38,75 @@ void setup() {
 }
 
 void sendAirQuality(float ppmCO2, float ppmLPG, float ppmBenzin, float ppmNO2) {
-  HTTPClient httpAirQuality;
-  httpAirQuality.begin(serverUrlAirQuality);
-  httpAirQuality.addHeader("Content-Type", "application/x-www-form-urlencoded");
+  WiFiClient client;
+  
+  String url = serverUrlAirQuality + "?co2=" + String(ppmCO2) +
+               "&lpg=" + String(ppmLPG) +
+               "&benzin=" + String(ppmBenzin) +
+               "&no2=" + String(ppmNO2);
 
-  String postDataAirQuality = "ppmCO2=" + String(ppmCO2) + "&ppmLPG=" + String(ppmLPG) +
-                              "&ppmBenzin=" + String(ppmBenzin) + "&ppmNO2=" + String(ppmNO2);
+  Serial.print("Sending Air Quality data to: ");
+  Serial.println(url);
 
-  int httpResponseCodeAirQuality = httpAirQuality.POST(postDataAirQuality);
-  if (httpResponseCodeAirQuality > 0) {
-    Serial.print("HTTP Response code for Air Quality: ");
-    Serial.println(httpResponseCodeAirQuality);
-    String responseAirQuality = httpAirQuality.getString();
-    Serial.println(responseAirQuality);
+  if (client.connect(server, 80)) {
+    client.print(String("GET ") + url + " HTTP/1.1\r\n" +
+                 "Host: " + server + "\r\n" +
+                 "Connection: close\r\n\r\n");
+    delay(10);
+    while (client.available()) {
+      String line = client.readStringUntil('\r');
+      Serial.print(line);
+    }
+    client.stop();
   } else {
-    Serial.print("HTTP POST request failed for Air Quality, error: ");
-    Serial.println(httpResponseCodeAirQuality);
+    Serial.println("Unable to connect to server");
   }
-
-  httpAirQuality.end();
 }
 
 void sendTemperature(float temperature) {
-  HTTPClient httpTemperature;
-  httpTemperature.begin(serverUrlTemperature);
-  httpTemperature.addHeader("Content-Type", "application/x-www-form-urlencoded");
+  WiFiClient client;
+  
+  String url = serverUrlTemperature + "?temperature=" + String(temperature);
 
-  String postDataTemperature = "temperature=" + String(temperature);
+  Serial.print("Sending Temperature data to: ");
+  Serial.println(url);
 
-  int httpResponseCodeTemperature = httpTemperature.POST(postDataTemperature);
-  if (httpResponseCodeTemperature > 0) {
-    Serial.print("HTTP Response code for Temperature: ");
-    Serial.println(httpResponseCodeTemperature);
-    String responseTemperature = httpTemperature.getString();
-    Serial.println(responseTemperature);
+  if (client.connect(server, 80)) {
+    client.print(String("GET ") + url + " HTTP/1.1\r\n" +
+                 "Host: " + server + "\r\n" +
+                 "Connection: close\r\n\r\n");
+    delay(10);
+    while (client.available()) {
+      String line = client.readStringUntil('\r');
+      Serial.print(line);
+    }
+    client.stop();
   } else {
-    Serial.print("HTTP POST request failed for Temperature, error: ");
-    Serial.println(httpResponseCodeTemperature);
+    Serial.println("Unable to connect to server");
   }
-
-  httpTemperature.end();
 }
 
 void sendHumidity(float humidity) {
-  HTTPClient httpHumidity;
-  httpHumidity.begin(serverUrlHumidity);
-  httpHumidity.addHeader("Content-Type", "application/x-www-form-urlencoded");
+  WiFiClient client;
+  
+  String url = serverUrlHumidity + "?humidity=" + String(humidity);
 
-  String postDataHumidity = "humidity=" + String(humidity);
+  Serial.print("Sending Humidity data to: ");
+  Serial.println(url);
 
-  int httpResponseCodeHumidity = httpHumidity.POST(postDataHumidity);
-  if (httpResponseCodeHumidity > 0) {
-    Serial.print("HTTP Response code for Humidity: ");
-    Serial.println(httpResponseCodeHumidity);
-    String responseHumidity = httpHumidity.getString();
-    Serial.println(responseHumidity);
+  if (client.connect(server, 80)) {
+    client.print(String("GET ") + url + " HTTP/1.1\r\n" +
+                 "Host: " + server + "\r\n" +
+                 "Connection: close\r\n\r\n");
+    delay(10);
+    while (client.available()) {
+      String line = client.readStringUntil('\r');
+      Serial.print(line);
+    }
+    client.stop();
   } else {
-    Serial.print("HTTP POST request failed for Humidity, error: ");
-    Serial.println(httpResponseCodeHumidity);
+    Serial.println("Unable to connect to server");
   }
-
-  httpHumidity.end();
 }
 
 void loop() {
@@ -145,5 +153,5 @@ void loop() {
   sendTemperature(temperature);
   sendHumidity(humidity);
 
-  delay(2000);
+  delay(3000);
 }
