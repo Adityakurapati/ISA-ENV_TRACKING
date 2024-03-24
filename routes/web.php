@@ -4,6 +4,7 @@ use App\Http\Controllers\HumidityController;
 use App\Http\Controllers\TemperatureController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WeatherController;
 
 // Just For Rendering UI
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -20,3 +21,6 @@ Route::get('/fetch-temperature', [TemperatureController::class, 'fetchTemperatur
 Route::get('/store-air-quality', [AirQualityController::class, 'storeAirQuality']);
 Route::get('/store-temperature', [TemperatureController::class, 'storeTemperature'])->name('temperature.store');        
 Route::get('/store-humidity', [HumidityController::class, 'storeHumidity'])->name('humidity.store');
+
+
+Route::get('/weather', [WeatherController::class, 'getWeather']);

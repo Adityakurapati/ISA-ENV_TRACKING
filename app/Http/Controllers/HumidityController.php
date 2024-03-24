@@ -9,7 +9,7 @@ class HumidityController extends Controller
     public function storeHumidity(Request $request)
     {
         $humidity = new Humidity();
-        $humidity->value = $request->$humidity;
+        $humidity->value = $request->humidity;
         $humidity->save();
         return response()->json(['message' => 'Humidity stored successfully'], 200);
     }

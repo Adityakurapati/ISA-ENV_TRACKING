@@ -23,7 +23,7 @@ class TemperatureController extends Controller
 
     public function fetchTemperature()
     {
-        $humidityValues = Temperature::all(); // Assuming you have a Humidity model
-        return response()->json(['humidityValues' => $humidityValues], 200);
+        $temperatures = Temperature::all(); 
+        return response()->json(['temperatureValue' => $temperatures], 200);
     }
 }

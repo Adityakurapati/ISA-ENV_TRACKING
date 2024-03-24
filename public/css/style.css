@@ -1,0 +1,330 @@
+* {
+        color: rgb(160, 159, 159);
+        margin: 0;
+        padding: 0;
+}
+
+body {
+        font-family: Arial, sans-serif;
+        max-height: 100vh;
+        width: 100vw;
+        background-color: #191B1F;
+}
+
+h1 {
+        color: white;
+}
+
+.card::before,
+.card::after {
+        content: "";
+        width: 150px;
+        height: 150px;
+        position: absolute;
+        z-index: -10 !important;
+        border-radius: 50%;
+        filter: blur(60px);
+}
+
+.card::before {
+        animation: move-blue 10s infinite linear alternate;
+        background: linear-gradient(145deg, #3638b6, #27378d);
+}
+
+.card::after {
+        animation: move-pink 10s infinite linear alternate;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(145deg, #c95584, #8a2569);
+}
+
+@keyframes move-blue {
+        0% {
+                transform: translate(-100%, -100%);
+        }
+
+        100% {
+                transform: translate(100%, 100%);
+        }
+}
+
+@keyframes move-pink {
+        0% {
+                transform: translate(100%, 100%);
+        }
+
+        100% {
+                transform: translate(-100%, -100%);
+        }
+}
+
+
+.blur {
+        filter: blur(40px);
+        background: rgb(146 43 240);
+        width: 540px;
+        height: 485px;
+        position: absolute;
+        top: -95px;
+        left: -84px;
+        border-radius: 50%;
+        z-index: -1;
+        background: url('/css/blur.png');
+}
+
+.container {
+        display: grid;
+        min-width: 100vw;
+        max-height: 95vh !important;
+        gap: 25px;
+        grid-template-columns: 5.5% 25% auto;
+        padding: 1.2rem;
+}
+
+.card {
+        transform: scale(1);
+        transition: transform 0.5s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* box-sizing: content-box; */
+        background: rgba(255, 255, 255, 0.25);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        padding: 3rem;
+        gap: 20px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+        color: white;
+        font-weight: bold;
+}
+
+h4 {
+        position: sticky;
+        top: 0;
+}
+
+.menu {
+        grid-column: 1;
+        grid-row: 1/3;
+        display: flex !important;
+        width: auto !important;
+        flex-direction: column;
+        color: gainsboro;
+        justify-content: flex-start;
+        align-items: center !important;
+}
+
+.menu>.option {
+        color: blue;
+        font-size: 20px;
+        background: rgb(32, 32, 46);
+        padding: .9rem;
+        border-radius: 1.2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50px;
+        height: 50px;
+        transition: all 0.4s ease-in;
+}
+
+.menu>.option:hover {
+        background-color: rgb(15, 15, 24);
+        cursor: pointer;
+        color: white;
+}
+
+/* Smooth scrollbar for webkit browsers */
+::-webkit-scrollbar {
+        width: 8px;
+        height: 60%;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+        background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+        background: #555;
+}
+
+
+.flex-row {
+        display: flex;
+        flex-direction: row;
+        width: 100% !important;
+        gap: 50px;
+}
+
+.flex-column {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        /* box-sizing: content-box; */
+        width: 100%;
+        padding: 31px;
+}
+
+.start {
+        justify-content: flex-start;
+}
+
+.end {
+        justify-content: flex-end;
+}
+
+.temperature {
+        grid-column: 2;
+        align-items: flex-start;
+}
+
+.row {
+        font-size: 1.2rem;
+}
+
+.temperature>.icon {
+        font-size: 4rem;
+        width: 200px;
+        height: 200px;
+        background: url('E:/env-tracking/images/tem-icon.png');
+}
+
+hr {
+        border: none;
+        border-top: 1px solid #eee;
+        width: 100%;
+        margin: 10px 0;
+}
+
+h2,
+h3,
+.temperature h2 {
+        font-size: 27px;
+        font-weight: 700;
+        color: wheat;
+}
+
+.flex-row>.icon {
+        width: 60px;
+        height: 60px;
+}
+
+.temp-details {
+        display: grid !important;
+        grid-template-columns: 30% 30% 40%;
+        width: 100%;
+}
+
+.air-quality {
+        grid-column: 3;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        width: 100%;
+}
+
+.overall-strategy {
+        grid-column: 3;
+        display: grid;
+        /* height: 100%; */
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        width: 100%;
+        gap: 25px;
+}
+
+.strategy-heading {
+        justify-self: flex-start;
+}
+
+.box {
+        background: #2f2f30;
+        /* background: #2b2d2e; */
+        border-radius: 20px;
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        max-width: 300px;
+        /* Adjusted */
+        width: 100%;
+        height: 100%;
+}
+
+.box h3 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+}
+
+.quality {
+        background-color: rgb(207, 206, 206);
+        padding: 1.2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        border-radius: 20px;
+        margin-bottom: 20px;
+
+}
+
+.quality .heading {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        color: black;
+}
+
+.quality .value {
+        font-size: 1.5rem;
+        color: #FFD700;
+        /* Golden color */
+}
+
+.temperature-detailed {
+        max-height: 400px;
+
+}
+
+.scrollable {
+        overflow: auto;
+        width: 115%;
+}
+
+.temperature-detailed h3 {
+        position: absolute;
+        top: .8rem;
+}
+
+.temperature-detailed .temp-details {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        position: relative;
+}
+
+.temperature-detailed .temp-details .icon {
+        width: 60px;
+        height: 60px;
+        margin-right: 10px;
+}
+
+.temperature-detailed .temp-details .temp_value,
+.temperature-detailed .temp-details .date,
+.temperature-detailed .temp-details .time {
+        font-size: 1.2rem;
+        margin-right: 10px;
+}
