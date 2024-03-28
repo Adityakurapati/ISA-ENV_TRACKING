@@ -20,7 +20,7 @@
                 <div class="row">
                         @foreach($temperatures as $temperature)
                         <div class="card flex-column">
-                                <h3>Temperature Value: {{ $temperature->temp_value }}</h3>
+                                <h3>{{ $temperature->temp_value }}</h3>
                                 <div class="card-content">
                                         <p>{{ $temperature->updated_at }}</p>
                                 </div>

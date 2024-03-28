@@ -164,6 +164,12 @@
 
 
         <script src="/js/script.js"></script>
+        <script>
+                setInterval(() => {
+                        window.reload();
+                }, 3000)
+
+        </script>
 </body>
 
 </html>
